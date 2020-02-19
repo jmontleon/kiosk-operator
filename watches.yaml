@@ -1,0 +1,5 @@
+---
+- version: v1alpha1
+  group: kiosk.openshift.io
+  kind: Kiosk
+  role: /opt/ansible/roles/kiosk

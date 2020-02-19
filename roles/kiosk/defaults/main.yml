@@ -1,0 +1,7 @@
+---
+image_pull_policy: Always
+kiosk_client: kiosk-client
+kiosk_client_tag: latest
+project: jmontleon
+registry: quay.io
+suffix: -kiosk

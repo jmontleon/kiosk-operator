@@ -1,0 +1,4 @@
+---
+- name: "Set up kiosk container"
+  k8s:
+    definition: "{{ lookup('template', 'kiosk.yml.j2') }}"

@@ -1,0 +1,101 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ base_name }}
+  namespace: kiosk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ persistent_home_size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kiosk 
+  name: {{ base_name }}
+spec:
+  selector:
+    matchLabels:
+      component: kiosk-operand
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: kiosk-operand
+      annotations:
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: desktop
+          image: {{ registry }}/{{ project }}/{{ distribution }}{{ suffix }}:{{ release }}
+          imagePullPolicy: "{{ image_pull_policy }}"
+          volumeMounts:
+            - name: kiosk
+              mountPath: /home
+          env:
+          - name: VNCPASS
+            value: "{{ passwd }}"
+          - name: DE
+            value: "{{ desktop }}"
+          - name: DESHELL
+            value: "{{ shell }}"
+          - name: RESOLUTION
+            value: "{{ resolution }}"
+          ports:
+          - containerPort: 5901
+            protocol: TCP
+        - name: client
+          image: {{ registry }}/{{ project }}/{{ kiosk_client }}:{{ kiosk_client_tag }}
+          imagePullPolicy: "{{ image_pull_policy }}"
+          env:
+          - name: VNCPASS
+            value: "{{ passwd }}"
+          - name: DE
+            value: "{{ desktop }}"
+          - name: DESHELL
+            value: "{{ shell }}"
+          - name: RESOLUTION
+            value: "{{ resolution }}"
+          ports:
+          - containerPort: 6080
+            protocol: TCP
+      volumes:
+        - name: kiosk
+          persistentVolumeClaim:
+            claimName: {{ base_name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ base_name }}
+  namespace: kiosk
+  labels:
+    component: kiosk-operand
+spec:
+  ports:
+    - name: port-6080
+      port: 6080
+      targetPort: 6080
+      protocol: TCP
+  selector:
+    component: kiosk-operand
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ base_name }}
+  namespace: kiosk
+  labels:
+    component: kiosk-operand
+spec:
+  to:
+    kind: Service
+    name: {{ base_name }}
+  port:
+    targetPort: port-6080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
