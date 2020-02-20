@@ -41,7 +41,6 @@ spec:
 ```
 
 ## TODO
-- Fix hard coded `kiosk` namespace
 - Better Password mechanism
 - set username and password per container if desired
 - implement running optional ansible playbook

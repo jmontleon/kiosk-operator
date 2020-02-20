@@ -7,7 +7,7 @@
 - name: "Find Kiosk Deployments"
   k8s_facts:
     kind: Deployment
-    namespace: kiosk
+    namespace: "{{ namespace }}"
     label_selectors:
     - name={{ base_name }}
   register: kiosk_deployments
@@ -17,14 +17,14 @@
     name: "{{ item.metadata.name }}"
     state: absent
     kind: Deployment
-    namespace: kiosk
+    namespace: "{{ namespace }}"
   with_items: "{{ kiosk_deployments.resources }}"
   when: item.metadata.labels.count|int > count|int
 
 - name: "Find Kiosk Routes"
   k8s_facts:
     kind: Route
-    namespace: kiosk
+    namespace: "{{ namespace }}"
     label_selectors:
     - name={{ base_name }}
   register: kiosk_routes
@@ -34,14 +34,14 @@
     name: "{{ item.metadata.name }}"
     state: absent
     kind: Route
-    namespace: kiosk
+    namespace: "{{ namespace }}"
   with_items: "{{ kiosk_routes.resources }}"
   when: item.metadata.labels.count|int > count|int
 
 - name: "Find Kiosk Services"
   k8s_facts:
     kind: Service
-    namespace: kiosk
+    namespace: "{{ namespace }}"
     label_selectors:
     - name={{ base_name }}
   register: kiosk_services
@@ -51,14 +51,14 @@
     name: "{{ item.metadata.name }}"
     state: absent
     kind: Service
-    namespace: kiosk
+    namespace: "{{ namespace }}"
   with_items: "{{ kiosk_services.resources }}"
   when: item.metadata.labels.count|int > count|int
 
 - name: "Find Kiosk PVCs"
   k8s_facts:
     kind: PersistentVolumeClaim
-    namespace: kiosk
+    namespace: "{{ namespace }}"
     label_selectors:
     - name={{ base_name }}
   register: kiosk_pvcs
@@ -68,6 +68,6 @@
     name: "{{ item.metadata.name }}"
     state: absent
     kind: PersistentVolumeClaim
-    namespace: kiosk
+    namespace: "{{ namespace }}"
   with_items: "{{ kiosk_pvcs.resources }}"
   when: item.metadata.labels.count|int > count|int

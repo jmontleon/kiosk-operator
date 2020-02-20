@@ -8,6 +8,7 @@ distribution_release: "31"
 image_pull_policy: Always
 kiosk_client: kiosk-client
 kiosk_client_tag: latest
+namespace: "{{ lookup( 'env', 'WATCH_NAMESPACE') }}"
 persistent_home: false
 persistent_home_size: 5Gi
 project: jmontleon
