@@ -47,5 +47,4 @@ RUN mkdir -p ${BASE_DIR} \
     && touch /etc/sysconfig/desktop \
     && chmod 777 ${BASE_DIR} /etc/sysconfig/desktop \
     && useradd -u ${USER_UID} -r -g 0 -M -d ${BASE_DIR} -b ${BASE_DIR} -s /bin/bash -c "vnc user" ${USER_NAME} \
-    && echo fedora | passwd --stdin ${USER_NAME} \
     && chmod -R g=u /etc/passwd

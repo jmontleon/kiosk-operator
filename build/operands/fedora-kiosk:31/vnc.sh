@@ -1,7 +1,11 @@
 #!/bin/bash
 if ! whoami &> /dev/null; then
   if [ -w /etc/passwd ]; then
-    echo "${USER_NAME:-vnc}:x:$(id -u):0:${USER_NAME:-vnc} user:${HOME}:/bin/${DESHELL}" >> /etc/passwd
+    echo "${DEUSER:-vnc}:x:$(id -u):0:${DEUSER:-vnc}:/home/${DEUSER}:/bin/${DESHELL}" >> /etc/passwd
+    if  [ ! -d "/home/${DEUSER}" ] &&  [ -d "/home/vnc" ]; then
+    mv /home/vnc /home/${DEUSER}
+    export HOME=/home/${DEUSER}
+    fi
   fi
 fi
 
