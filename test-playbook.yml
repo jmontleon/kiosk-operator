@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Test Task
+    file:
+      state: touch
+      path: "{{ lookup('env', 'HOME') }}/hello-world.txt"
+      mode: '0644'

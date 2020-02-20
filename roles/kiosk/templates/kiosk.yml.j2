@@ -60,6 +60,12 @@ spec:
             value: "{{ shell }}"
           - name: RESOLUTION
             value: "{{ resolution }}"
+{% if additional_playbook_url != '' %}
+          - name: ADDITIONAL_PLAYBOOK_URL
+            value: "{{ additional_playbook_url }}"
+{% endif %}
+           - name: RESOLUTION
+            value: "{{ resolution }}"
           ports:
           - containerPort: 5901
             protocol: TCP
