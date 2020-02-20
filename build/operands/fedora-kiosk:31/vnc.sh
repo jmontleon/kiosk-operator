@@ -21,6 +21,11 @@ unset XDG_RUNTIME_DIR
 exec /etc/X11/xinit/xinitrc
 EOF
 
+cat << EOF > ~/.xinitrc
+xset s off
+xset s noblank
+EOF
+
 chmod 755 ~/.vnc/xstartup
 
 if [ "$DE" == "fvwm" ]; then
