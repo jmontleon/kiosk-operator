@@ -70,4 +70,6 @@
     kind: PersistentVolumeClaim
     namespace: "{{ namespace }}"
   with_items: "{{ kiosk_pvcs.resources }}"
-  when: item.metadata.labels.count|int > count|int
+  when:
+  - item.metadata.labels.count|int > count|int
+  - not persistent_home_delete_protection

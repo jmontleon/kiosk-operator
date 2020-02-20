@@ -10,6 +10,7 @@ kiosk_client: kiosk-client
 kiosk_client_tag: latest
 namespace: "{{ lookup( 'env', 'WATCH_NAMESPACE') }}"
 persistent_home: false
+persistent_home_delete_protection: true
 persistent_home_size: 5Gi
 project: jmontleon
 registry: quay.io

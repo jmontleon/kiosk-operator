@@ -30,6 +30,7 @@ metadata:
               "distribution_release": "31",
               "passwd": "password",
               "persistent_home": false,
+              "persistent_home_delete_protection": true,
               "persistent_home_size": "5Gi",
               "resolution": "1024x768",
               "shell": "bash"
