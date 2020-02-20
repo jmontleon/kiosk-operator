@@ -80,3 +80,4 @@ spec:
 ## TODO
 - Better Password mechanism
 - Smaller more discrete images? 7GiB is... big.
+- Move most of vnc.sh to a playbook
