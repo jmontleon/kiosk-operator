@@ -1,7 +1,7 @@
 FROM fedora:31
 
 RUN dnf -y update && \
-    dnf -y install "@Cinnamon Desktop" \
+    dnf -y install \
                    "@KDE" \
                    "@KDE Plasma Workspaces" \
                    "@LibreOffice" \
