@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ base_name }}-{{ item }}
+  name: {{ base_name }}-{{ item.count }}
   namespace: "{{ namespace }}"
   labels:
     name: {{ base_name }}
-    count: "{{ item }}"
+    count: "{{ item.count }}"
     component: kiosk-operand
 spec:
   accessModes:
@@ -21,24 +21,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: "{{ namespace }}"
-  name: {{ base_name }}-{{ item }}
+  name: {{ base_name }}-{{ item.count }}
   labels:
     name: {{ base_name }}
-    count: "{{ item }}"
+    count: "{{ item.count }}"
     component: kiosk-operand
 spec:
   selector:
     matchLabels:
       component: kiosk-operand
       name: {{ base_name }}
-      count: "{{ item }}"
+      count: "{{ item.count }}"
   replicas: 1
   template:
     metadata:
       labels:
         component: kiosk-operand
         name: {{ base_name }}
-        count: "{{ item }}"
+        count: "{{ item.count }}"
       annotations:
     spec:
       restartPolicy: Always
@@ -52,20 +52,20 @@ spec:
               mountPath: /home
 {% endif %}
           env:
-          - name: VNCPASS
-            value: "{{ passwd }}"
-          - name: DE
-            value: "{{ desktop }}"
-          - name: DESHELL
-            value: "{{ shell }}"
-          - name: RESOLUTION
-            value: "{{ resolution }}"
 {% if additional_playbook_url != '' %}
           - name: ADDITIONAL_PLAYBOOK_URL
             value: "{{ additional_playbook_url }}"
 {% endif %}
+          - name: DE
+            value: "{{ desktop }}"
+          - name: DESHELL
+            value: "{{ shell }}"
+          - name: DEUSER
+            value: "{{ item.user }}"
           - name: RESOLUTION
             value: "{{ resolution }}"
+          - name: VNCPASS
+            value: "{{ item.passwd }}"
           ports:
           - containerPort: 5901
             protocol: TCP
@@ -73,14 +73,6 @@ spec:
           image: {{ registry }}/{{ project }}/{{ kiosk_client }}:{{ kiosk_client_tag }}
           imagePullPolicy: "{{ image_pull_policy }}"
           env:
-          - name: VNCPASS
-            value: "{{ passwd }}"
-          - name: DE
-            value: "{{ desktop }}"
-          - name: DESHELL
-            value: "{{ shell }}"
-          - name: RESOLUTION
-            value: "{{ resolution }}"
           ports:
           - containerPort: 6080
             protocol: TCP
@@ -88,17 +80,17 @@ spec:
       volumes:
         - name: kiosk
           persistentVolumeClaim:
-            claimName: {{ base_name }}-{{ item }}
+            claimName: {{ base_name }}-{{ item.count }}
 {% endif %}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ base_name }}-{{ item }}
+  name: {{ base_name }}-{{ item.count }}
   namespace: "{{ namespace }}"
   labels:
     name: {{ base_name }}
-    count: "{{ item }}"
+    count: "{{ item.count }}"
     component: kiosk-operand
 spec:
   ports:
@@ -109,21 +101,21 @@ spec:
   selector:
     component: kiosk-operand
     name: {{ base_name }}
-    count: "{{ item }}"
+    count: "{{ item.count }}"
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ base_name }}-{{ item }}
+  name: {{ base_name }}-{{ item.count }}
   namespace: "{{ namespace }}"
   labels:
     name: {{ base_name }}
-    count: "{{ item }}"
+    count: "{{ item.count }}"
     component: kiosk-operand
 spec:
   to:
     kind: Service
-    name: {{ base_name }}-{{ item }}
+    name: {{ base_name }}-{{ item.count }}
   port:
     targetPort: port-6080
   tls:

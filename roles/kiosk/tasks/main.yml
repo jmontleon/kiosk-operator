@@ -1,8 +1,22 @@
 ---
+- name: "Initialize Credentials"
+  set_fact:
+    resolved_credentials: []
+
+- name: "Assemble Credentials"
+  set_fact:
+    resolved_credentials: "{{ resolved_credentials + new_item }}"
+  vars:
+    new_item:
+    - {'count': '{{ item }}',
+       'user': "{{ credentials|selectattr('count', 'equalto', item|int) | map(attribute='user')|list|first|default('vnc') }}",
+       'passwd': "{{ credentials|selectattr('count', 'equalto', item|int) | map(attribute='passwd')|list|first|default(passwd) }}"}
+  with_sequence: count={{ count|int }}
+
 - name: "Set up kiosk container"
   k8s:
     definition: "{{ lookup('template', 'kiosk.yml.j2') }}"
-  with_sequence: count={{ count|int }}
+  with_items: "{{ resolved_credentials }}"
 
 - name: "Find Kiosk Deployments"
   k8s_facts:

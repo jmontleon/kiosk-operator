@@ -62,7 +62,21 @@ spec:
 ## Additional configuration
 If you set `additional_playbook_url` the entrypoint script will attempt to download the ansible-playbook and run it.
 
+## Per Container Credentials
+You can construct a set of credentials in the spec like so if desired. If the count is greater than the set of credentials containers will fall back to the user 'vnc' and the value specified in the `passwd` parameter.
+
+```
+spec:
+  credentials:
+  - count: 1
+    passwd: onecat!!
+    user: student1
+  - count: 2
+    passwd: twodogs!
+    user: student2
+```
+
+
 ## TODO
 - Better Password mechanism
-- set username and password per container if desired
 - Smaller more discrete images? 7GiB is... big.
