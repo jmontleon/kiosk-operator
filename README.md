@@ -65,3 +65,4 @@ If you set `additional_playbook_url` the entrypoint script will attempt to downl
 ## TODO
 - Better Password mechanism
 - set username and password per container if desired
+- Smaller more discrete images? 7GiB is... big.
