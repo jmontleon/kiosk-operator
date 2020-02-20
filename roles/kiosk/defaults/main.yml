@@ -1,7 +1,17 @@
 ---
+additional_playbook_url: ""
+base_name: fedora-xfce
+count: 1
+desktop: Xfce
+distribution: fedora
+distribution_release: "31"
 image_pull_policy: Always
 kiosk_client: kiosk-client
 kiosk_client_tag: latest
+persistent_home: false
+persistent_home_size: 5Gi
 project: jmontleon
 registry: quay.io
+resolution: 1024x768
+shell: bash
 suffix: -kiosk

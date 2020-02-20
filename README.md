@@ -44,5 +44,4 @@ spec:
 - Fix hard coded `kiosk` namespace
 - Better Password mechanism
 - set username and password per container if desired
-- make pvcs optional for real
 - implement running optional ansible playbook

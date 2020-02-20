@@ -22,12 +22,12 @@ metadata:
               "namespace": "kiosk"
             },
             "spec": {
+              "additional_playbook_url": "",
               "base_name": "fedora-xfce",
-              "count": "1",
+              "count": 1,
               "desktop": "Xfce",
               "distribution": "fedora",
-              "release": "31",
-              "additional_playbook_url": "",
+              "distribution_release": "31",
               "passwd": "password",
               "persistent_home": false,
               "persistent_home_size": "5Gi",
