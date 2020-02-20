@@ -40,7 +40,9 @@ spec:
   shell: bash
 ```
 
+## Additional configuration
+If you set `additional_playbook_url` the entrypoint script will attempt to download the ansible-playbook and run it.
+
 ## TODO
 - Better Password mechanism
 - set username and password per container if desired
-- implement running optional ansible playbook
