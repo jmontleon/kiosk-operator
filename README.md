@@ -4,6 +4,18 @@ This operator will launch a set of containers accessible via noVNC.
 An Xfce desktop session running in a container on OpenShift 4:
 ![Xfce Desktop](https://github.com/jmontleon/kiosk-operator/blob/master/fedora-xfce.png)
 
+Just 1 of 5 containers launched with a single CR.
+```
+$ oc get po
+NAME                              READY   STATUS    RESTARTS   AGE
+fedora-xfce-1-7c694bb859-xzrxb    2/2     Running   0          25m
+fedora-xfce-2-57bbc95cc5-t5tms    2/2     Running   0          25m
+fedora-xfce-3-746bb7875-2xmv8     2/2     Running   0          25m
+fedora-xfce-4-5d8dbc6df5-sbm22    2/2     Running   0          25m
+fedora-xfce-5-77c77c9b99-r6h9v    2/2     Running   0          25m
+kiosk-operator-7dcfd784b7-7h6s8   2/2     Running   0          48m
+```
+
 ## Getting the Kiosk Operator
 `oc create -f kiosk-operator-source.yml`
 
