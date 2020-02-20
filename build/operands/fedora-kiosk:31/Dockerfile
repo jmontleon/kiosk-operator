@@ -2,6 +2,9 @@ FROM fedora:31
 
 RUN dnf -y update && \
     dnf -y install \
+                   --exclude=mate-screensaver \
+                   --exclude=xscreensaver-extras \
+                   --exclude=xscreensaver-extras-base \
                    "@KDE" \
                    "@KDE Plasma Workspaces" \
                    "@LibreOffice" \
