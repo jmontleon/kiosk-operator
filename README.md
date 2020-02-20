@@ -20,6 +20,9 @@ Supported values for desktop are:
 - Sugar
 - Xfce
 
+Resolution sets the initial resolution. noVNC is capable of scaling and remote resizing.
+
+And example kiosk CR:
 ```
 apiVersion: kiosk.openshift.io/v1alpha1
 kind: Kiosk
@@ -27,15 +30,16 @@ metadata:
   name: fedora-xfce
   namespace: kiosk
 spec:
-  additional_playbook_url: ""
+  additional_playbook_url: https://raw.githubusercontent.com/jmontleon/kiosk-operator/master/test-playbook.yml
   base_name: fedora-xfce
-  count: 1
+  count: 5
   desktop: Xfce
   distribution: fedora
+  distribution_release: "31"
   passwd: password
-  persistent_home: false
+  persistent_home: true
+  persistent_home_delete_protection: true
   persistent_home_size: 5Gi
-  release: "31"
   resolution: 1024x768
   shell: bash
 ```
