@@ -2,3 +2,72 @@
 - name: "Set up kiosk container"
   k8s:
     definition: "{{ lookup('template', 'kiosk.yml.j2') }}"
+  with_sequence: count={{ count|int }}
+
+- name: "Find Kiosk Deployments"
+  k8s_facts:
+    kind: Deployment
+    namespace: kiosk
+    label_selectors:
+    - name={{ base_name }}
+  register: kiosk_deployments
+
+- name: "Terminate excess Deployments"
+  k8s:
+    name: "{{ item.metadata.name }}"
+    state: absent
+    kind: Deployment
+    namespace: kiosk
+  with_items: "{{ kiosk_deployments.resources }}"
+  when: item.metadata.labels.count|int > count|int
+
+- name: "Find Kiosk Routes"
+  k8s_facts:
+    kind: Route
+    namespace: kiosk
+    label_selectors:
+    - name={{ base_name }}
+  register: kiosk_routes
+
+- name: "Terminate excess Routes"
+  k8s:
+    name: "{{ item.metadata.name }}"
+    state: absent
+    kind: Route
+    namespace: kiosk
+  with_items: "{{ kiosk_routes.resources }}"
+  when: item.metadata.labels.count|int > count|int
+
+- name: "Find Kiosk Services"
+  k8s_facts:
+    kind: Service
+    namespace: kiosk
+    label_selectors:
+    - name={{ base_name }}
+  register: kiosk_services
+
+- name: "Terminate excess Services"
+  k8s:
+    name: "{{ item.metadata.name }}"
+    state: absent
+    kind: Service
+    namespace: kiosk
+  with_items: "{{ kiosk_services.resources }}"
+  when: item.metadata.labels.count|int > count|int
+
+- name: "Find Kiosk PVCs"
+  k8s_facts:
+    kind: PersistentVolumeClaim
+    namespace: kiosk
+    label_selectors:
+    - name={{ base_name }}
+  register: kiosk_pvcs
+
+- name: "Terminate excess PVCs"
+  k8s:
+    name: "{{ item.metadata.name }}"
+    state: absent
+    kind: PersistentVolumeClaim
+    namespace: kiosk
+  with_items: "{{ kiosk_pvcs.resources }}"
+  when: item.metadata.labels.count|int > count|int

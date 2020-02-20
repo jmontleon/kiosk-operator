@@ -2,8 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ base_name }}
+  name: {{ base_name }}-{{ item }}
   namespace: kiosk
+  labels:
+    name: {{ base_name }}
+    count: "{{ item }}"
+    component: kiosk-operand
 spec:
   accessModes:
     - ReadWriteOnce
@@ -14,17 +18,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: kiosk 
-  name: {{ base_name }}
+  namespace: kiosk
+  name: {{ base_name }}-{{ item }}
+  labels:
+    name: {{ base_name }}
+    count: "{{ item }}"
+    component: kiosk-operand
 spec:
   selector:
     matchLabels:
       component: kiosk-operand
+      name: {{ base_name }}
+      count: "{{ item }}"
   replicas: 1
   template:
     metadata:
       labels:
         component: kiosk-operand
+        name: {{ base_name }}
+        count: "{{ item }}"
       annotations:
     spec:
       restartPolicy: Always
@@ -65,14 +77,16 @@ spec:
       volumes:
         - name: kiosk
           persistentVolumeClaim:
-            claimName: {{ base_name }}
+            claimName: {{ base_name }}-{{ item }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ base_name }}
+  name: {{ base_name }}-{{ item }}
   namespace: kiosk
   labels:
+    name: {{ base_name }}
+    count: "{{ item }}"
     component: kiosk-operand
 spec:
   ports:
@@ -82,18 +96,22 @@ spec:
       protocol: TCP
   selector:
     component: kiosk-operand
+    name: {{ base_name }}
+    count: "{{ item }}"
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ base_name }}
+  name: {{ base_name }}-{{ item }}
   namespace: kiosk
   labels:
+    name: {{ base_name }}
+    count: "{{ item }}"
     component: kiosk-operand
 spec:
   to:
     kind: Service
-    name: {{ base_name }}
+    name: {{ base_name }}-{{ item }}
   port:
     targetPort: port-6080
   tls:
