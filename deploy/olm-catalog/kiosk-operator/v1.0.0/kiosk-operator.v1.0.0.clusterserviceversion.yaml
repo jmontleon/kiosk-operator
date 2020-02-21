@@ -8,7 +8,7 @@ metadata:
     olm.skipRange: '>=0.0.0 <1.0.0'
     capabilities: Seamless Upgrades
     description: Run Kiosk Containers with noVNC
-    categories: 'Community'
+    categories: 'OpenShift Optional'
     containerImage: quay.io/jmontleon/kiosk-operator-container:latest
     createdAt: 2020-02-19T20:29:00Z
     repository: https://github.com/jmontleon/kiosk-operator
