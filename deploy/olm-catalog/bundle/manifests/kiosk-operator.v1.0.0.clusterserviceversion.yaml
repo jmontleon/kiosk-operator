@@ -41,10 +41,12 @@ metadata:
     support: Jason Montleon
 spec:
   relatedImages:
-  - name: fedora-kiosk
-    image: quay.io/jmontleon/fedora-kiosk:31
-  - name: kiosk-client
-    image: quay.io/jmontleon/kiosk-client:latest
+  - name: fedora-34
+    image: quay.io/jmontleon/kiosk-operator-fedora-34:latest
+  - name: fedora-34
+    image: quay.io/jmontleon/kiosk-operator-fedora-33:latest
+  - name: novnc
+    image: quay.io/jmontleon/kiosk-operator-novnc:latest
   displayName: Kiosk Operator
   description: |
     The Kiosk Operator for OpenShift enables running Kiosk Containers
@@ -151,17 +153,6 @@ spec:
             spec:
               serviceAccount: kiosk-operator
               containers:
-              - name: ansible
-                image: quay.io/jmontleon/kiosk-operator-container:latest
-                command:
-                - /usr/local/bin/ao-logs
-                - /tmp/ansible-operator/runner
-                - stdout
-                imagePullPolicy: Always
-                volumeMounts:
-                - mountPath: /tmp/ansible-operator/runner
-                  name: runner
-                  readOnly: true
               - name: operator
                 image: quay.io/jmontleon/kiosk-operator-container:latest
                 imagePullPolicy: Always

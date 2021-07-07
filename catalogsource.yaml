@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: kiosk
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: quay.io/jmontleon/kiosk-operator-index:latest

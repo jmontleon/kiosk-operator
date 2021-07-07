@@ -1,19 +1,20 @@
 ---
+desktop: Xfce
+registry: quay.io
+project: jmontleon
+distribution: fedora
+distribution_release: "34"
+distribution_tag: latest
+kiosk_client: kiosk-operator-novnc
+kiosk_client_tag: latest
 additional_playbook_url: ""
 base_name: fedora-xfce
 count: 1
-desktop: Xfce
-distribution: fedora
-distribution_release: "31"
 image_pull_policy: Always
-kiosk_client: kiosk-client
-kiosk_client_tag: latest
 namespace: "{{ lookup( 'env', 'WATCH_NAMESPACE') }}"
 persistent_home: false
 persistent_home_delete_protection: true
 persistent_home_size: 5Gi
-project: jmontleon
-registry: quay.io
 resolution: 1024x768
 shell: bash
 suffix: -kiosk

@@ -44,7 +44,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: desktop
-          image: {{ registry }}/{{ project }}/{{ distribution }}{{ suffix }}:{{ distribution_release }}
+          image: {{ registry }}/{{ project }}/kiosk-operator-{{ distribution }}-{{ distribution_release }}:{{ distribution_tag }}
           imagePullPolicy: "{{ image_pull_policy }}"
 {% if persistent_home %}
           volumeMounts:

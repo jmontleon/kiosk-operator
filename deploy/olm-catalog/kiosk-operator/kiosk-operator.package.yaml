@@ -1,5 +1,0 @@
-packageName: kiosk-operator
-channels:
-- name: v1.0.0
-  currentCSV: kiosk-operator.v1.0.0
-defaultChannel: v1.0.0
