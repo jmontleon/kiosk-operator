@@ -39,6 +39,7 @@ metadata:
       ]
     certified: "false"
     support: Jason Montleon
+    operatorframework.io/suggested-namespace: kiosk
 spec:
   relatedImages:
   - name: fedora-34
